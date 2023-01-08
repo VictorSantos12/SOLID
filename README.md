@@ -1,4 +1,7 @@
-# SOLID
+<div align="center">
+  <img src="https://user-images.githubusercontent.com/61476935/211216782-80395e6b-87a3-4928-8e7d-b7506bf1d1ce.png">
+</div>
+<br>
 
 SOLID é um acrônimo formado pelas iniciais dos cinco principios da programação orientada a objetos, criado pelo desenvolvedor e escritor [Michael Feathers](https://i1.sndcdn.com/artworks-uuCAD9dOPcSo7U1b-pMBJ6Q-t500x500.jpg), após este constatar que os principais conceitos da POO descritos por Bobert C. Martin formam a palavra <i>SOLID</i>.
 
