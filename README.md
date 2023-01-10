@@ -3,11 +3,11 @@
 </div>
 <br>
 
-SOLID é um acrônimo formado pelas iniciais dos cinco principios da programação orientada a objetos, criado pelo desenvolvedor e escritor [Michael Feathers](https://i1.sndcdn.com/artworks-uuCAD9dOPcSo7U1b-pMBJ6Q-t500x500.jpg), após este constatar que os principais conceitos da POO descritos por Bobert C. Martin formam a palavra <i>SOLID</i>.
+SOLID é um acrônimo formado pelas iniciais dos cinco princípios da programação orientada a objetos, criado pelo desenvolvedor e escritor [Michael Feathers](https://i1.sndcdn.com/artworks-uuCAD9dOPcSo7U1b-pMBJ6Q-t500x500.jpg) após este constatar que os principais conceitos da POO descritos por Bobert C. Martin formam a palavra <i>SOLID</i>.
 
 Abordados no artigo [The Principles of OOD](http://butunclebob.com/ArticleS.UncleBob.PrinciplesOfOod), os conceitos mencionados se tornaram um padrão quando se trata de desenvolvimento de sistemas baseados em objetos, sendo este um método adotado por praticamente todos os sistemas existentes hoje. 
 
-Os principios descritos por Feathers consistem em:
+Os princípios descritos por Feathers consistem em:
 
 ## S (Single Responsability Principle)
 
@@ -69,9 +69,9 @@ A classe acima é um exemplo claro da quebra do SRP, pois a ela são delegadas t
     
     }
 
-É notavel o crescimento em termos de linhas de código, visto que para cada funcionalidade, uma classe foi criada. A primeira vista, tal crescimento pode aparentar um problema, já que é lógico afirmar que: mais código significa mais trabalho. Porém, não é o caso. Dar manutenção as funcionalidades a partir de classes distintas se torna muito mais simples, pois, nenhuma das demais tarefaz serão afetadas por quais quer que sejam as mudanças.
+É notavel o crescimento em termos de linhas de código, visto que uma classe foi criada para cada funcionalidade. A primeira vista, tal crescimento pode aparentar um problema, já que é lógico afirmar que mais código significa mais trabalho. Porém, não é o caso. Dar manutenção as funcionalidades a partir de classes distintas se torna muito mais simples, pois, nenhuma das demais tarefaz serão afetadas por quais quer que sejam as mudanças.
 
-Além disso, cabe resaltar que o principio de responsabilidade única não se restringe a classes. Métodos e funções também executam tarefas e também podem acabar sobrecarregadas. 
+Além disso, cabe resaltar que o princípio de responsabilidade única não se restringe a classes, métodos e funções também executam tarefas e também podem acabar sobrecarregadas. 
 
 Exemplo:
 
@@ -110,7 +110,84 @@ Novamento, o resultado implica na quantidade de código necessário, porém, res
 
 ## O (Open-Closed Principle)
 
+O princípio Open-Closed define que <i>entidades e objetos devem estar propensos a serem extendidos, mas hostis a modificações</i>, ou seja, ao surgir a necessidade de adicionar novos requisitos e funcionalidades em um software, deve-se optar por estender o que já foi desenvolvido e evitar modificações.
 
+Exemplo: 
+
+    // .dart
+
+    class CLT {
+      laborRights() {}
+    }
+    
+    class PJ {
+      biggerSalary() {}
+    }
+    
+    class Benefits {
+      
+      dynamic benefits;
+    
+      void defineBenefits(contractType) {
+        if(contractType is CLT) {
+    
+          final contract = CLT();
+          benefits = contract.laborRights();
+    
+        } else if(contractType is PJ) {
+          
+          final contract = PJ();
+          benefits = contract.biggerSalary();
+
+        }
+      }
+    }
+
+O exemplo acima simula o fluxo de definição de benefícios que diferentes tipos de contração possuem, representados pelas classes CLT e PJ, onde cada classe opera seu respectivo benefício através de um método único. Além disso, há uma terceira classe que opera e define os benefécios por tipo de contrato. 
+
+Contudo, caso a empresa que usa esse sistema viesse a decidir por contratar estagiários, uma intervensão na classe Benefits seria necessária, pois ela precisaria validar um tipo não esperado de contrato. Esse problema demonstra explícitamente uma quebra do OCP, pois, uma classe já operante teria que ter sua regra de negócio modificada para se adequar a uma nova funcionalidade. 
+
+Tal alteração pode parecer o caminho mais fácil e certamente seria aderido por desenvolvedores menos experientes. No entanto, se cada modificação futura se valer por uma alteração no código fonte, abre-se espaço para bugs e o mau funcionamento de uma rotina já implementada. De forma alternativa, podemos seguir a solução descrita por Robert C. Martin para resolver tal problemática:
+
+<i>"Separate extensible behavior behind an interface, and flip the dependencies".</i>
+
+Com isso se conclui que comportamentos não derivativos podem ser abstraídos para que uma solução não necessite implementá-los multiplas vezes. Se observarmos o que ocorre em cada classe que define um tipo de contrato do sistema de benefícios, é exatamente o que acontece. Logo, criar uma interface que será implementada por cada cargo fará com que a classe Benefits não tenha que se preocupar com que cargo ela está tratando, mas sim com a interface que este implementa. Interface esta que pode ser implementada por qualquer cargo que venha a compor o sistema.
+
+Exemplo:
+
+    // .dart
+
+    abstract class Benefit {
+      contractBenefits();
+    }
+    
+    class CLT implements Benefit {
+      @override
+      contractBenefits() { }
+    }
+    
+    class PJ implements Benefit {
+      @override
+      contractBenefits() { }
+    }
+
+    class Trainee implements Benefit {
+      @override
+      contractBenefits() { }
+    }
+    
+    class Benefits {
+      
+      void defineBenefits(Benefit contractType) {
+        contractType.contractBenefits();
+      } 
+    }
+    
+    final cltBenefits = Benefits().defineBenefits(CLT());
+    final pjBenefits = Benefits().defineBenefits(PJ());
+    final traineeBenefits = Benefits().defineBenefits(Trainee());
+
+A classe Benefit declara o método contractBenefits(), que será obrigatoriamente implementado por todos os cargos. Com isso, podemos fazer com que o método defineBenefits() sempre espere por uma implementação da interface Benefit, o que mantém afastada a necessidade de modificações, e permite adicionarmos quantos gargos forem necessários, incluíndo o definido pela classe <i>Trainee(estagiário)</i>.
 
 ## L (Liskov Substitution Principile)
 
