@@ -1,33 +1,29 @@
-class ITEmployee {
+abstract class DependencyInterface {
+   resources() { 
+    // some resource
+  }
+}
+
+class Dependency implements DependencyInterface{
+  @override
+  resources() { }
+}
+
+class AnotherDependency implements DependencyInterface{
+  @override
+  resources() { }
+}
+
+class MyClass {
    
-   dynamic itDegree;
-   programmingSkills() {}
-
-}
-
-class ManagementEmployee {
-   
-   dynamic managementDegree;
-   managementSkills() {}
-
-}
-
-class TechLead implements ITEmployee {
-  @override
-  var itDegree;
-
-  @override
-  programmingSkills() {}
-
-}
-
-class BusinessManager implements ManagementEmployee {
-  @override
-  var managementDegree;
+  final DependencyInterface dependency;
   
-  @override
-  managementSkills() {}
-
+  const MyClass({
+    required this.dependency,
+  });
+  
 }
 
+final myClass = MyClass(dependency: Dependency()).dependency.resources();
+// final myClass = MyClass(dependency: AnotherDependency()).dependency.resources();
 

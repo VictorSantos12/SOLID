@@ -367,6 +367,88 @@ A classe Employee foi dividida em dois tipos distintos, <i>ITEmployee</i> e <i>M
 
 # D (Dependency Inversion Principle)
 
+O princípio de inversão de dependências expressa que <i>classes e entidades devem depender de abstrações, não de implementações</i>. Como Robert C. Martin define: 
 
+### Modulos de alto nível não devem depender de módulos de baixo nível. Ambos devem depender de abstrações.
+
+Ao segregarmos as classes de um sistema em níveis, como Uncle Bob faz na frase acima, declaramos que há uma hierarquia a se seguir. Se observarmos o Princípio de Responsabilidade Única, podemos deduzir que em dado momento haverá a necessidade de utilizarmos recursos que foram delegados a uma outra classe, e portanto, precisaremos acessa-la. A classe que acessa um recurso de outra, ou seja, depende de uma outra classe, é chamada de <b><i>Modulo de alto nível</i></b> e a classe da qual se depende é um <b><i>Modulo de baixo nível</i></b>.
+
+Exemplo:
+
+    class Dependency {
+      resources() { 
+        // some resource
+      }
+    }
+    
+    class MyClass {
+       
+      dynamic dependency;
+    
+      method() {
+        dependency = Dependency().resources();
+      }
+    }
+
+No exemplo acima, MyClass representa a implementação de um recurso que depende exclusivamente da classe Dependency, a qual sofre intância mediante a execução de um dos membros da classe MyClass para que seja possível expor tal recurso. Na OOP chamamos esse tipo de relação de <i>alto nível de acoplamento</i>, visto que a implementação do módulo de alto nível(MyClass) depende obrigatoriamente da intância de um módulo de baixo nível(Dependency). Resultando na necessidde de instanciar Dependency sempre que MyClass for utilizada.
+
+Uma forma de resolver o problema de acoplmento é fazer uso da <b><i>Injeção de Dependências</i></b>:
+
+    class Dependency {
+      resources() { 
+        // some resource
+      }
+    }
+    
+    class MyClass {
+       
+      final Dependency dependency;
+      
+      const MyClass({
+        required this.dependency,
+      });
+      
+    }
+    
+    final myclass = MyClass(dependency: Dependency()).dependency.resources();
+
+Com a dependência declarada no constructor de MyClass, tiramos do seu escopo a necessidade de intanciar a classe dependida, pois esta já está disponível desde o momento de sua declaração, diminuíndo o nível de acoplamento de ambas.
+
+Contudo, a injeção de dependências não torna MyClass um exemplo de Inversão de dependências, visto que os conceitos, por mais que associáveis, são bastante diferentes. Dependency Injection é um pattern que visa reduzir o acoplamento entre recursos de um sistema, já a Inversão de dependências é uma boa prática da POO, que define as interfaces como modelo ideal de dependência. 
+
+Logo, para que possamos implementar um exemplo que se adeque ao DIP, adicionaremos a ele uma interface:
+
+    abstract class DependencyInterface {
+       resources() { 
+        // some resource
+      }
+    }
+    
+    class Dependency implements DependencyInterface {
+      @override
+      resources() { }
+    }
+    
+    class AnotherDependency implements DependencyInterface {
+      @override
+      resources() { }
+    }
+    
+    class MyClass {
+       
+      final DependencyInterface dependency;
+      
+      const MyClass({
+        required this.dependency,
+      });
+      
+    }
+    
+    final myClass = MyClass(dependency: Dependency()).dependency.resources();
+    // final myClass = MyClass(dependency: AnotherDependency()).dependency.resources();
+
+Com isso, fizemos com que MyClass não tenha ciência de qual dependência está implemento, desta forma, ambas as classes (dependente e dependência) estão desacopladas e derivam de uma abstração. Além disso, tando a reusabilidade quanto outros conceitos do SOLID estão sendo respeitados. É o caso do SRP e do OCP, pois cada classe implementa um único recurso e poderia ser facilmente substituída pela classe da qual deriva.
 
 # Por que o SOLID ?
+
+O SOLID não só representa uma série de benefícios em termos de desenvolvimento, como maior escalabilidade, maior robusteis e, pricipalmente, tolerância a mudanças por parte do sistema; ele demonstra um maior entendimento do desenvolvedor do que são boas práticas, do que é desenvolvimento de sistemas e naturalmente aumenta o nível de proficiência de quem o aplica.
