@@ -154,7 +154,7 @@ Contudo, caso a empresa que usa esse sistema viesse a decidir por contratar esta
 Tal alteração pode parecer o caminho mais fácil e certamente seria aderido por desenvolvedores menos experientes. No entanto, se cada modificação futura se valer por uma alteração no código fonte, abre-se espaço para bugs e o mau funcionamento de uma rotina já implementada. De forma alternativa, podemos seguir a solução descrita por Robert C. Martin para resolver tal problemática:
 
 ### <i>"Separate extensible behavior behind an interface, and flip the dependencies".</i> 
-- Martin, C. Robert
+Martin, C. Robert
 
 Com isso se conclui que comportamentos não derivativos podem ser abstraídos para que uma solução não necessite implementá-los multiplas vezes. Se observarmos o que ocorre em cada classe que define um tipo de contrato do sistema de benefícios, é exatamente o que ocorre. Logo, criar uma interface que será implementada por cada cargo fará com que a classe Benefits não tenha que se preocupar com que cargo ela está tratando, mas sim com a interface que este implementa. Interface esta que pode ser implementada por qualquer cargo que venha a compor o sistema.
 
@@ -206,7 +206,7 @@ A classe Benefit declara o método contractBenefits(), que será obrigatoriament
 
 Introduzido pela cientista da computação [Barbara Liskov](https://en.wikipedia.org/wiki/Barbara_Liskov) em 1987, o princípio de substituição de Liskov define que <i>uma classe herdeira deve poder ser subtituída pela classe da qual ela herda sem que haja a necessidade de altera programas que a implementem.</i> Sua definição formal diz:
 
-### <i>Se para cada objeto o1 do tipo S há um objeto o2 do tipo T de forma que, para todos os programas P definidos em termos de T, o comportamento de P é inalterado quando o1 é substituído por o2 então S é um subtipo de T</i>
+#### <i>Se para cada objeto o1 do tipo S há um objeto o2 do tipo T de forma que, para todos os programas P definidos em termos de T, o comportamento de P é inalterado quando o1 é substituído por o2 então S é um subtipo de T</i>
 
 Para facilitar o entendimento, vamos a um exemplo: 
     
@@ -283,8 +283,90 @@ A não violação do LSP demanda experiência prévia com a programação orient
 
 ## I (Interface Segregation Principle)
 
+O princípio de segregação da interface exprime que <i>uma classe não deve implementar forçosamente interfces e métodos dos quais não fará uso</i>, o que consiste em dizer que criar interfaces mais específicas é mais eficiente do que criar interfaces genéricas que obrigam a implementação de recursos em todas as situações, mesmo nos quais esses recursos não são necessários. Vamos a um exemplo:
 
+    class Employee {
+       
+       dynamic itDegree;
+       dynamic managementDegree;
+    
+       programmingSkills() {}
+       managementSkills() {}
+    
+    }
+
+A classe Employee designa genericamente os requerimentos dos funcionários de uma empresa, e sua implementação pode se dar da seguinte forma:
+    
+    class TechLead implements Employee {
+      @override
+      var itDegree;
+    
+      @override
+      var managementDegree;
+    
+      @override
+      managementSkills() {}
+    
+      @override
+      programmingSkills() {}
+    
+    }
+    
+    class BusinessManager implements Employee {
+      @override
+      var itDegree;
+    
+      @override
+      var managementDegree;
+    
+      @override
+      managementSkills() {}
+    
+      @override
+      programmingSkills() {}
+    
+    }
+
+Dois tipos de funcionários foram criados mediante a implementação da classe Employee, <i>TechLead</i> e <i>BusinessManager</i>, e ambas herdaram todas as entidades que a compõem. Porém, é perceptível que, a abstração que gerou nossa Super classe não foi bem planeja, pois o resultado agrega propriedades e métodos que nem todos os funcionário necessitam ter. Por exemplo, um gerente não necessita ter formação em tecnologia para exercer as funções que lhe cabem, assim como um líder técnico não necessita ser graduado em gerenciamento para lidar com suas obrigações. 
+
+A ISP define que é mais desejável criar novas interfaces para o sistema de forma a segregar as funcionalidades, do que manter funcionalidades implementadas de forma disnecessária. Com isso, podemos fazer as seguintes alterações:
+
+    class ITEmployee {
+       
+       dynamic itDegree;
+       programmingSkills() {}
+    
+    }
+    
+    class ManagementEmployee {
+       
+       dynamic managementDegree;
+       managementSkills() {}
+    
+    }
+    
+    class TechLead implements ITEmployee {
+      @override
+      var itDegree;
+    
+      @override
+      programmingSkills() {}
+    
+    }
+    
+    class BusinessManager implements ManagementEmployee {
+      @override
+      var managementDegree;
+      
+      @override
+      managementSkills() {}
+    
+    }
+
+A classe Employee foi dividida em dois tipos distintos, <i>ITEmployee</i> e <i>ManagementEmployee</i>, segregando as regras de cada tipo em interfaces que podem ser aplicadas sem a obrigatoriedade de implementações desnecessárias. Poderiamos ainda dizer que um líder técnico necessita de de habilidades de gestão, estas representas pelo método managementSkills(), fazendo com que ele necessitasse ser herdado por ambos os tipos de funcinários. Isso seria facilmente remediado através da abstração do comportamento em uma nova interface, porém, não será necessário para que o exemplo demonstre os conceitos do ISP.
 
 ## D (Dependency Inversion Principle)
+
+
 
 ## Por que o SOLID ?
