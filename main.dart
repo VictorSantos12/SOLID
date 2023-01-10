@@ -4,17 +4,23 @@ abstract class Benefit {
 
 class CLT implements Benefit {
   @override
-  contractBenefits() { }
+  contractBenefits() {
+     print('Labor Rights');
+   }
 }
 
 class PJ implements Benefit {
   @override
-  contractBenefits() { }
+  contractBenefits() { 
+    print('Bigger Salary');
+  }
 }
 
 class Trainee implements Benefit {
   @override
-  contractBenefits() { }
+  contractBenefits() { 
+    print('Less responsibilities');
+  }
 }
 
 class Benefits {
@@ -24,9 +30,8 @@ class Benefits {
   } 
 }
 
-
-final cltBenefits = Benefits().defineBenefits(CLT());
-
-final pjBenefits = Benefits().defineBenefits(PJ());
-
-final traineeBenefits = Benefits().defineBenefits(Trainee());
+void main() {
+  final cltBenefits = Benefits().defineBenefits(CLT());
+  final pjBenefits = Benefits().defineBenefits(PJ());
+  final traineeBenefits = Benefits().defineBenefits(Trainee());  
+}

@@ -39,7 +39,7 @@ Exemplo:
     
     }
 
-A classe acima é um exemplo claro da quebra do SRP, pois a ela são delegadas três diferentes tipos de terafas. Sendo responsável pela obtenção dos dados, não é coerente que também se responsabilize por apresentar os resultados e pela manutenção das informações. A delegação de tais tarefas a classes, estaria respeitando o princípio de responsabilidade única caso fosse estruturada da seguinte forma:
+A classe acima é um exemplo claro da quebra do SRP, pois a ela são delegadas três diferentes tipos de tarefas. Sendo responsável pela obtenção dos dados, não é coerente que também se responsabilize por apresentar os resultados e pela manutenção das informações. A delegação de tais tarefas a classes, estaria respeitando o princípio de responsabilidade única caso fosse estruturada da seguinte forma:
 
     // .dart
 
@@ -117,11 +117,15 @@ Exemplo:
     // .dart
 
     class CLT {
-      laborRights() {}
+      laborRights() {
+         print('Labor Rights');
+      }
     }
     
     class PJ {
-      biggerSalary() {}
+      biggerSalary() {
+        print('Bigger Salary');
+      }
     }
     
     class Benefits {
@@ -145,13 +149,13 @@ Exemplo:
 
 O exemplo acima simula o fluxo de definição de benefícios que diferentes tipos de contração possuem, representados pelas classes CLT e PJ, onde cada classe opera seu respectivo benefício através de um método único. Além disso, há uma terceira classe que opera e define os benefécios por tipo de contrato. 
 
-Contudo, caso a empresa que usa esse sistema viesse a decidir por contratar estagiários, uma intervensão na classe Benefits seria necessária, pois ela precisaria validar um tipo não esperado de contrato. Esse problema demonstra explícitamente uma quebra do OCP, pois, uma classe já operante teria que ter sua regra de negócio modificada para se adequar a uma nova funcionalidade. 
+Contudo, caso a empresa que usa esse sistema viesse a decidir por contratar estagiários, uma intervenção na classe Benefits seria necessária, pois ela precisaria validar um tipo não esperado de contrato. Esse problema demonstra explícitamente uma quebra do OCP, pois, uma classe já operante teria que ter sua regra de negócio modificada para se adequar a uma nova funcionalidade. 
 
 Tal alteração pode parecer o caminho mais fácil e certamente seria aderido por desenvolvedores menos experientes. No entanto, se cada modificação futura se valer por uma alteração no código fonte, abre-se espaço para bugs e o mau funcionamento de uma rotina já implementada. De forma alternativa, podemos seguir a solução descrita por Robert C. Martin para resolver tal problemática:
 
-<i>"Separate extensible behavior behind an interface, and flip the dependencies".</i>
+######<i>"Separate extensible behavior behind an interface, and flip the dependencies".</i> - Martin, C. Robert
 
-Com isso se conclui que comportamentos não derivativos podem ser abstraídos para que uma solução não necessite implementá-los multiplas vezes. Se observarmos o que ocorre em cada classe que define um tipo de contrato do sistema de benefícios, é exatamente o que acontece. Logo, criar uma interface que será implementada por cada cargo fará com que a classe Benefits não tenha que se preocupar com que cargo ela está tratando, mas sim com a interface que este implementa. Interface esta que pode ser implementada por qualquer cargo que venha a compor o sistema.
+Com isso se conclui que comportamentos não derivativos podem ser abstraídos para que uma solução não necessite implementá-los multiplas vezes. Se observarmos o que ocorre em cada classe que define um tipo de contrato do sistema de benefícios, é exatamente o que ocorre. Logo, criar uma interface que será implementada por cada cargo fará com que a classe Benefits não tenha que se preocupar com que cargo ela está tratando, mas sim com a interface que este implementa. Interface esta que pode ser implementada por qualquer cargo que venha a compor o sistema.
 
 Exemplo:
 
@@ -163,17 +167,23 @@ Exemplo:
     
     class CLT implements Benefit {
       @override
-      contractBenefits() { }
+      contractBenefits() {
+         print('Labor Rights');
+       }
     }
     
     class PJ implements Benefit {
       @override
-      contractBenefits() { }
+      contractBenefits() { 
+        print('Bigger Salary');
+      }
     }
-
+    
     class Trainee implements Benefit {
       @override
-      contractBenefits() { }
+      contractBenefits() { 
+        print('Less responsibilities');
+      }
     }
     
     class Benefits {
@@ -183,13 +193,17 @@ Exemplo:
       } 
     }
     
-    final cltBenefits = Benefits().defineBenefits(CLT());
-    final pjBenefits = Benefits().defineBenefits(PJ());
-    final traineeBenefits = Benefits().defineBenefits(Trainee());
+    void main() {
+      final cltBenefits = Benefits().defineBenefits(CLT());
+      final pjBenefits = Benefits().defineBenefits(PJ());
+      final traineeBenefits = Benefits().defineBenefits(Trainee());  
+    }
 
-A classe Benefit declara o método contractBenefits(), que será obrigatoriamente implementado por todos os cargos. Com isso, podemos fazer com que o método defineBenefits() sempre espere por uma implementação da interface Benefit, o que mantém afastada a necessidade de modificações, e permite adicionarmos quantos gargos forem necessários, incluíndo o definido pela classe <i>Trainee(estagiário)</i>.
+A classe Benefit declara o método contractBenefits(), que será obrigatoriamente implementado por todos os contratos. Com isso, podemos fazer com que o método defineBenefits() sempre espere por uma implementação da interface Benefit, tornando modificações algo desnecessário, e permitindo a criação de quantos tipos de contrato forem necessários, incluíndo o definido pela classe <i>Trainee(estagiário)</i>.
 
-## L (Liskov Substitution Principile)
+## L (Liskov Substitution Principle)
+
+
 
 ## I (Interface Segregation Principle)
 
