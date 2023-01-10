@@ -371,7 +371,7 @@ O princípio de inversão de dependências expressa que <i>classes e entidades d
 
 ### Modulos de alto nível não devem depender de módulos de baixo nível. Ambos devem depender de abstrações.
 
-Ao segregarmos as classes de um sistema em níveis, como Uncle Bob faz na frase acima, declaramos que há uma hierarquia a se seguir. Se observarmos o Princípio de Responsabilidade Única, podemos deduzir que em dado momento haverá a necessidade de utilizarmos recursos que foram delegados a uma outra classe, e portanto, precisaremos acessa-la. A classe que acessa um recurso de outra, ou seja, depende de uma outra classe, é chamada de <b><i>Modulo de alto nível</i></b> e a classe da qual se depende é um <b><i>Modulo de baixo nível</i></b>.
+Ao segregarmos as classes de um sistema em níveis, como Uncle Bob faz na frase acima, declaramos que há uma hierarquia a se seguir. Se observarmos o Princípio de Responsabilidade Única, podemos deduzir que em dado momento haverá a necessidade de utilizarmos recursos que foram delegados a uma outra classe, e portanto, precisaremos acessa-la. A classe que acessa um recurso de outra, ou seja, depende de uma outra classe, é chamada de <b><i>Modulo de alto nível</i></b> e a classe da qual se depende é um <b><i>Modulo de baixo nível</i></b>. Essa é a hierarquia descrita por Martin.
 
 Exemplo:
 
