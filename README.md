@@ -153,7 +153,8 @@ Contudo, caso a empresa que usa esse sistema viesse a decidir por contratar esta
 
 Tal alteração pode parecer o caminho mais fácil e certamente seria aderido por desenvolvedores menos experientes. No entanto, se cada modificação futura se valer por uma alteração no código fonte, abre-se espaço para bugs e o mau funcionamento de uma rotina já implementada. De forma alternativa, podemos seguir a solução descrita por Robert C. Martin para resolver tal problemática:
 
-### <i>"Separate extensible behavior behind an interface, and flip the dependencies".</i> - Martin, C. Robert
+### <i>"Separate extensible behavior behind an interface, and flip the dependencies".</i> 
+- Martin, C. Robert
 
 Com isso se conclui que comportamentos não derivativos podem ser abstraídos para que uma solução não necessite implementá-los multiplas vezes. Se observarmos o que ocorre em cada classe que define um tipo de contrato do sistema de benefícios, é exatamente o que ocorre. Logo, criar uma interface que será implementada por cada cargo fará com que a classe Benefits não tenha que se preocupar com que cargo ela está tratando, mas sim com a interface que este implementa. Interface esta que pode ser implementada por qualquer cargo que venha a compor o sistema.
 
@@ -203,9 +204,86 @@ A classe Benefit declara o método contractBenefits(), que será obrigatoriament
 
 ## L (Liskov Substitution Principle)
 
+Introduzido pela cientista da computação [Barbara Liskov](https://en.wikipedia.org/wiki/Barbara_Liskov) em 1987, o princípio de substituição de Liskov define que <i>uma classe herdeira deve poder ser subtituída pela classe da qual ela herda sem que haja a necessidade de altera programas que a implementem.</i> Sua definição formal diz:
 
+### <i>Se para cada objeto o1 do tipo S há um objeto o2 do tipo T de forma que, para todos os programas P definidos em termos de T, o comportamento de P é inalterado quando o1 é substituído por o2 então S é um subtipo de T</i>
+
+Para facilitar o entendimento, vamos a um exemplo: 
+    
+    // .dart
+
+    class Super {
+      method() {
+        print('Super Object');
+      }
+    }
+    
+    class Sub extends Super{
+      method() {
+        print('Sub Object');
+      }
+    }
+    
+    final superObject = Super();
+    final subObject = Sub();
+    
+    void operation(Super object) {
+       object.method();
+    }
+    
+    main() {
+      operation(superObject);
+      operation(subObject);
+    }
+
+A operação, definida pelo método operation() declara a aceitação da classe <i>Super</i> como parâmetro, logo, quaisquer classes que dela herdem também devem poder ser aceitas na operação sem que ocorra qualquer erro. Output:
+
+    [Running] dart "c:\SOLID\main.dart"
+    Super Object
+    Sub Object
+
+Pode-se dizer que se o conceito de inheritance da OOP for bem compreendido, você dificilmente não estará seguindo a LSP. No entanto, você não está atendendo ao princípio de substituição de Liskov quando:
+
+### Sobrescreve métodos que não possuem função:
+
+    class Sub extends Super {
+      method() {
+         // no function
+      }
+    }
+
+### Lança exceções inesperadas:
+  
+    class Sub extends Super {
+      method() {
+        if (true) {
+          throw Exception();
+        }
+        // do something
+      }
+    }
+
+### Retornar valores de tipos distintos:
+
+    class Super {
+      method() {
+        // do something
+        return true;
+      }
+    }
+
+    class Sub extends Super {
+      method() {
+        // do something
+        return "true";
+      }
+    }
+
+A não violação do LSP demanda experiência prévia com a programação orientada a objetos e conehcimento dos demais conceitos do SOLID, visto que as abstrações devem ser bem planejadas. Com isso, o LSP permite que o polimorfismo nas suas classes seja feito com muito mais certeza quando aplicado.
 
 ## I (Interface Segregation Principle)
+
+
 
 ## D (Dependency Inversion Principle)
 
