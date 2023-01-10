@@ -153,7 +153,7 @@ Contudo, caso a empresa que usa esse sistema viesse a decidir por contratar esta
 
 Tal alteração pode parecer o caminho mais fácil e certamente seria aderido por desenvolvedores menos experientes. No entanto, se cada modificação futura se valer por uma alteração no código fonte, abre-se espaço para bugs e o mau funcionamento de uma rotina já implementada. De forma alternativa, podemos seguir a solução descrita por Robert C. Martin para resolver tal problemática:
 
-###### <i>"Separate extensible behavior behind an interface, and flip the dependencies".</i> - Martin, C. Robert
+##### <i>"Separate extensible behavior behind an interface, and flip the dependencies".</i> - Martin, C. Robert
 
 Com isso se conclui que comportamentos não derivativos podem ser abstraídos para que uma solução não necessite implementá-los multiplas vezes. Se observarmos o que ocorre em cada classe que define um tipo de contrato do sistema de benefícios, é exatamente o que ocorre. Logo, criar uma interface que será implementada por cada cargo fará com que a classe Benefits não tenha que se preocupar com que cargo ela está tratando, mas sim com a interface que este implementa. Interface esta que pode ser implementada por qualquer cargo que venha a compor o sistema.
 
