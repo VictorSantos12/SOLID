@@ -9,7 +9,7 @@ Abordados no artigo [The Principles of OOD](http://butunclebob.com/ArticleS.Uncl
 
 Os princípios descritos por Feathers consistem em:
 
-## S (Single Responsability Principle)
+# S (Single Responsability Principle)
 
 O SRP, define que à uma classe só se deve delegadar uma função. Classes que exercem multiplas tarefas são bastante comuns no inicio do processo de aprendizado de um desenvolvedor. As chamadas <i>God Classes</i> são um sinal de que o código necessita de uma reestruturação, caso contrário, não demorará muito para se perder o controle e a legibilidade do que foi desenvolvido. 
 
@@ -108,7 +108,7 @@ Exemplo:
 
 Novamento, o resultado implica na quantidade de código necessário, porém, resulta em muito mais legibilidade e, por consequência, em um código mais limpo.
 
-## O (Open-Closed Principle)
+# O (Open-Closed Principle)
 
 O princípio Open-Closed define que <i>entidades e objetos devem estar propensos a serem extendidos, mas hostis a modificações</i>, ou seja, ao surgir a necessidade de adicionar novos requisitos e funcionalidades em um software, deve-se optar por estender o que já foi desenvolvido e evitar modificações.
 
@@ -202,7 +202,7 @@ Exemplo:
 
 A classe Benefit declara o método contractBenefits(), que será obrigatoriamente implementado por todos os contratos. Com isso, podemos fazer com que o método defineBenefits() sempre espere por uma implementação da interface Benefit, tornando modificações algo desnecessário, e permitindo a criação de quantos tipos de contrato forem necessários, incluíndo o definido pela classe <i>Trainee(estagiário)</i>.
 
-## L (Liskov Substitution Principle)
+# L (Liskov Substitution Principle)
 
 Introduzido pela cientista da computação [Barbara Liskov](https://en.wikipedia.org/wiki/Barbara_Liskov) em 1987, o princípio de substituição de Liskov define que <i>uma classe herdeira deve poder ser subtituída pela classe da qual ela herda sem que haja a necessidade de altera programas que a implementem.</i> Sua definição formal diz:
 
@@ -281,7 +281,7 @@ Pode-se dizer que se o conceito de inheritance da OOP for bem compreendido, voc�
 
 A não violação do LSP demanda experiência prévia com a programação orientada a objetos e conehcimento dos demais conceitos do SOLID, visto que as abstrações devem ser bem planejadas. Com isso, o LSP permite que o polimorfismo nas suas classes seja feito com muito mais certeza quando aplicado.
 
-## I (Interface Segregation Principle)
+# I (Interface Segregation Principle)
 
 O princípio de segregação da interface exprime que <i>uma classe não deve implementar forçosamente interfces e métodos dos quais não fará uso</i>, o que consiste em dizer que criar interfaces mais específicas é mais eficiente do que criar interfaces genéricas que obrigam a implementação de recursos em todas as situações, mesmo nos quais esses recursos não são necessários. Vamos a um exemplo:
 
@@ -365,8 +365,8 @@ A ISP define que é mais desejável criar novas interfaces para o sistema de for
 
 A classe Employee foi dividida em dois tipos distintos, <i>ITEmployee</i> e <i>ManagementEmployee</i>, segregando as regras de cada tipo em interfaces que podem ser aplicadas sem a obrigatoriedade de implementações desnecessárias. Poderiamos ainda dizer que um líder técnico necessita de de habilidades de gestão, estas representas pelo método managementSkills(), fazendo com que ele necessitasse ser herdado por ambos os tipos de funcinários. Isso seria facilmente remediado através da abstração do comportamento em uma nova interface, porém, não será necessário para que o exemplo demonstre os conceitos do ISP.
 
-## D (Dependency Inversion Principle)
+# D (Dependency Inversion Principle)
 
 
 
-## Por que o SOLID ?
+# Por que o SOLID ?
