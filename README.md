@@ -11,7 +11,7 @@ Os princípios descritos por Feathers consistem em:
 
 # S (Single Responsability Principle)
 
-O SRP, define que à uma classe só se deve delegadar uma função. Classes que exercem multiplas tarefas são bastante comuns no inicio do processo de aprendizado de um desenvolvedor. As chamadas <i>God Classes</i> são um sinal de que o código necessita de uma reestruturação, caso contrário, não demorará muito para se perder o controle e a legibilidade do que foi desenvolvido. 
+O SRP, define que à uma classe só se deve delegar uma função. Criar classes que exercem multiplas tarefas são bastante comuns no inicio do processo de aprendizado de um desenvolvedor. As chamadas <i>God Classes</i> são um sinal de que o código necessita de uma reestruturação, caso contrário, não demorará muito para se perder o controle e a legibilidade do que foi desenvolvido. 
 
 Um outro problema que ocorre com classes acumuladoras de funções, é a dificultade de manutenir suas responsabilidades, visto que mudanças em determinadas funções, poderão comprometer as outras. Com isso, toda alteração passa a ser vista com incerteza, já que poderá resultar em problemas em um código já operante.
 
@@ -39,7 +39,7 @@ Exemplo:
     
     }
 
-A classe acima é um exemplo claro da quebra do SRP, pois a ela são delegadas três diferentes tipos de tarefas. Sendo responsável pela obtenção dos dados, não é coerente que também se responsabilize por apresentar os resultados e pela manutenção das informações. A delegação de tais tarefas a classes, estaria respeitando o princípio de responsabilidade única caso fosse estruturada da seguinte forma:
+A classe acima é um exemplo claro da quebra do SRP, pois a ela são delegados três diferentes tipos de tarefas. Sendo responsável pela obtenção dos dados, não é coerente que também se responsabilize por apresentar os resultados e pela manutenção das informações. A delegação de tais tarefas a classes estaria respeitando o princípio de responsabilidade única caso fosse estruturada da seguinte forma:
 
     // .dart
 
@@ -69,9 +69,9 @@ A classe acima é um exemplo claro da quebra do SRP, pois a ela são delegadas t
     
     }
 
-É notavel o crescimento em termos de linhas de código, visto que uma classe foi criada para cada funcionalidade. A primeira vista, tal crescimento pode aparentar um problema, já que é lógico afirmar que mais código significa mais trabalho. Porém, não é o caso. Dar manutenção as funcionalidades a partir de classes distintas se torna muito mais simples, pois, nenhuma das demais tarefaz serão afetadas por quais quer que sejam as mudanças.
+É notavel o crescimento em termos de linhas de código, visto que uma classe foi criada para cada funcionalidade. A primeira vista, tal crescimento pode aparentar um problema, já que é lógico afirmar que mais código significa mais trabalho. Porém, não é o caso. Dar manutenção as funcionalidades a partir de classes distintas se torna muito mais simples, visto que nenhuma das demais tarefaz será afeta por quais quer que sejam as mudanças.
 
-Além disso, cabe resaltar que o princípio de responsabilidade única não se restringe a classes, métodos e funções também executam tarefas e também podem acabar sobrecarregadas. 
+Além disso, cabe resaltar que o princípio de responsabilidade única não se restringe a classes; métodos e funções também executam tarefas e também podem acabar sobrecarregadas. 
 
 Exemplo:
 
@@ -110,7 +110,7 @@ Novamento, o resultado implica na quantidade de código necessário, porém, res
 
 # O (Open-Closed Principle)
 
-O princípio Open-Closed define que <i>entidades e objetos devem estar propensos a serem extendidos, mas hostis a modificações</i>, ou seja, ao surgir a necessidade de adicionar novos requisitos e funcionalidades em um software, deve-se optar por estender o que já foi desenvolvido e evitar modificações.
+O princípio Open-Closed define que <b><i>entidades e objetos devem estar propensos a serem extendidos mas hostis a modificações</i></b>, ou seja, ao surgir a necessidade de adicionar novos requisitos e funcionalidades em um software, deve-se optar por estender o que já foi desenvolvido e evitar modificações.
 
 Exemplo: 
 
@@ -162,25 +162,25 @@ Exemplo:
 
     // .dart
 
-    abstract class Benefit {
+    abstract class Contract {
       contractBenefits();
     }
     
-    class CLT implements Benefit {
+    class CLT implements Contract {
       @override
       contractBenefits() {
          print('Labor Rights');
        }
     }
     
-    class PJ implements Benefit {
+    class PJ implements Contract {
       @override
       contractBenefits() { 
         print('Bigger Salary');
       }
     }
     
-    class Trainee implements Benefit {
+    class Trainee implements Contract {
       @override
       contractBenefits() { 
         print('Less responsibilities');
@@ -189,7 +189,7 @@ Exemplo:
     
     class Benefits {
       
-      void defineBenefits(Benefit contractType) {
+      void defineBenefits(Contract contractType) {
         contractType.contractBenefits();
       } 
     }
@@ -200,11 +200,11 @@ Exemplo:
       final traineeBenefits = Benefits().defineBenefits(Trainee());  
     }
 
-A classe Benefit declara o método contractBenefits(), que será obrigatoriamente implementado por todos os contratos. Com isso, podemos fazer com que o método defineBenefits() sempre espere por uma implementação da interface Benefit, tornando modificações algo desnecessário, e permitindo a criação de quantos tipos de contrato forem necessários, incluíndo o definido pela classe <i>Trainee(estagiário)</i>.
+A classe Contract declara o método contractBenefits(), que será obrigatoriamente implementado por todos os contratos. Com isso, podemos fazer com que o método defineBenefits() sempre espere por uma implementação da interface Contract, tornando modificações algo desnecessário, e permitindo a criação de quantos tipos de contrato forem necessários, incluíndo o definido pela classe <i>Trainee(estagiário)</i>.
 
 # L (Liskov Substitution Principle)
 
-Introduzido pela cientista da computação [Barbara Liskov](https://en.wikipedia.org/wiki/Barbara_Liskov) em 1987, o princípio de substituição de Liskov define que <i>uma classe herdeira deve poder ser subtituída pela classe da qual ela herda sem que haja a necessidade de altera programas que a implementem.</i> Sua definição formal diz:
+Introduzido pela cientista da computação [Barbara Liskov](https://en.wikipedia.org/wiki/Barbara_Liskov) em 1987, o princípio de substituição de Liskov define que <b><i>uma classe herdeira deve poder ser subtituída pela classe da qual ela herda sem que haja a necessidade de altera programas que a implementem.</i></b> Sua definição formal diz:
 
 #### <i>Se para cada objeto o1 do tipo S há um objeto o2 do tipo T de forma que, para todos os programas P definidos em termos de T, o comportamento de P é inalterado quando o1 é substituído por o2 então S é um subtipo de T</i>
 
@@ -218,7 +218,7 @@ Para facilitar o entendimento, vamos a um exemplo:
       }
     }
     
-    class Sub extends Super{
+    class Sub extends Super {
       method() {
         print('Sub Object');
       }
@@ -236,7 +236,7 @@ Para facilitar o entendimento, vamos a um exemplo:
       operation(subObject);
     }
 
-A operação, definida pelo método operation() declara a aceitação da classe <i>Super</i> como parâmetro, logo, quaisquer classes que dela herdem também devem poder ser aceitas na operação sem que ocorra qualquer erro. Output:
+A operação, definida pelo método operation(), declara a aceitação da classe <i>Super</i> como parâmetro, logo, quaisquer classes que dela herdem também devem poder ser aceitas na operação sem que ocorra qualquer erro. Output:
 
     [Running] dart "c:\SOLID\main.dart"
     Super Object
@@ -244,7 +244,9 @@ A operação, definida pelo método operation() declara a aceitação da classe 
 
 Pode-se dizer que se o conceito de inheritance da OOP for bem compreendido, você dificilmente não estará seguindo a LSP. No entanto, você não está atendendo ao princípio de substituição de Liskov quando:
 
-### Sobrescreve métodos que não possuem função:
+### Sobrescreve métodos que não possuem função
+
+Sobrescrever um método que não é utilizado cria código morto dentro do escopo da classe herdeira. Mas a frete teremos uma alternativa para tal problemática:
 
     class Sub extends Super {
       method() {
@@ -252,7 +254,7 @@ Pode-se dizer que se o conceito de inheritance da OOP for bem compreendido, voc�
       }
     }
 
-### Lança exceções inesperadas:
+### Lança exceções inesperadas
   
     class Sub extends Super {
       method() {
@@ -279,11 +281,11 @@ Pode-se dizer que se o conceito de inheritance da OOP for bem compreendido, voc�
       }
     }
 
-A não violação do LSP demanda experiência prévia com a programação orientada a objetos e conehcimento dos demais conceitos do SOLID, visto que as abstrações devem ser bem planejadas. Com isso, o LSP permite que o polimorfismo nas suas classes seja feito com muito mais certeza quando aplicado.
+A não violação do LSP demanda experiência prévia com a programação orientada a objetos e conhecimento dos demais conceitos do SOLID, visto que as abstrações devem ser bem planejadas. Com isso, o LSP permite que o polimorfismo nas suas classes seja feito com muito mais certeza quando aplicado.
 
 # I (Interface Segregation Principle)
 
-O princípio de segregação da interface exprime que <i>uma classe não deve implementar forçosamente interfces e métodos dos quais não fará uso</i>, o que consiste em dizer que criar interfaces mais específicas é mais eficiente do que criar interfaces genéricas que obrigam a implementação de recursos em todas as situações, mesmo nos quais esses recursos não são necessários. Vamos a um exemplo:
+O princípio de segregação da interface exprime que <b><i>uma classe não deve implementar forçosamente interfces e métodos dos quais não fará uso</i></b>, o que consiste em dizer que criar interfaces mais específicas é mais eficiente do que criar interfaces genéricas que obrigam a implementação de recursos em todas as situações, mesmo nos quais esses recursos não são necessários. Vamos a um exemplo:
 
     class Employee {
        
@@ -327,7 +329,9 @@ A classe Employee designa genericamente os requerimentos dos funcionários de um
     
     }
 
-Dois tipos de funcionários foram criados mediante a implementação da classe Employee, <i>TechLead</i> e <i>BusinessManager</i>, e ambas herdaram todas as entidades que a compõem. Porém, é perceptível que, a abstração que gerou nossa Super classe não foi bem planeja, pois o resultado agrega propriedades e métodos que nem todos os funcionário necessitam ter. Por exemplo, um gerente não necessita ter formação em tecnologia para exercer as funções que lhe cabem, assim como um líder técnico não necessita ser graduado em gerenciamento para lidar com suas obrigações. 
+Dois tipos de funcionários foram criados mediante a implementação da classe Employee: <i>TechLead</i> e <i>BusinessManager</i>; ambas são herdeiras de todas as entidades que compõem a sua <i>super</i>. Porém, é perceptível que, a abstração que gerou nossa Super classe não foi bem planeja, pois o resultado agrega propriedades e métodos que nem todos os funcionário necessitam ter. 
+
+Por exemplo, um gerente não necessita ter formação em tecnologia para exercer as funções que lhe cabem, assim como um líder técnico não necessita ser graduado em gerenciamento para lidar com suas obrigações. 
 
 A ISP define que é mais desejável criar novas interfaces para o sistema de forma a segregar as funcionalidades, do que manter funcionalidades implementadas de forma disnecessária. Com isso, podemos fazer as seguintes alterações:
 
@@ -367,7 +371,7 @@ A classe Employee foi dividida em dois tipos distintos, <i>ITEmployee</i> e <i>M
 
 # D (Dependency Inversion Principle)
 
-O princípio de inversão de dependências expressa que <i>classes e entidades devem depender de abstrações, não de implementações</i>. Como Robert C. Martin define: 
+O princípio de inversão de dependências expressa que <b><i>classes e entidades devem depender de abstrações, não de implementações</i></b>. A definição formal dada por Robert C. Martin define: 
 
 ### Modulos de alto nível não devem depender de módulos de baixo nível. Ambos devem depender de abstrações.
 
@@ -390,9 +394,9 @@ Exemplo:
       }
     }
 
-No exemplo acima, MyClass representa a implementação de um recurso que depende exclusivamente da classe Dependency, a qual sofre intância mediante a execução de um dos membros da classe MyClass para que seja possível expor tal recurso. Na OOP chamamos esse tipo de relação de <i>alto nível de acoplamento</i>, visto que a implementação do módulo de alto nível(MyClass) depende obrigatoriamente da intância de um módulo de baixo nível(Dependency). Resultando na necessidde de instanciar Dependency sempre que MyClass for utilizada.
+No exemplo acima, MyClass representa a implementação de um recurso que depende exclusivamente da classe Dependency, a qual sofre instância mediante a execução de um dos membros da classe MyClass para que seja possível expor tal recurso. Na OOP chamamos esse tipo de relação de <i>alto nível de acoplamento</i>, visto que a implementação do módulo de alto nível(MyClass) depende obrigatoriamente da instância de um módulo de baixo nível(Dependency). Resultando na necessidde de instanciar Dependency sempre que MyClass for utilizada.
 
-Uma forma de resolver o problema de acoplmento é fazer uso da <b><i>Injeção de Dependências</i></b>:
+Uma forma de resolver o problema de acoplamento é fazer uso da <b><i>Injeção de Dependências</i></b>:
 
     class Dependency {
       resources() { 
@@ -412,7 +416,7 @@ Uma forma de resolver o problema de acoplmento é fazer uso da <b><i>Injeção d
     
     final myclass = MyClass(dependency: Dependency()).dependency.resources();
 
-Com a dependência declarada no constructor de MyClass, tiramos do seu escopo a necessidade de intanciar a classe dependida, pois esta já está disponível desde o momento de sua declaração, diminuíndo o nível de acoplamento de ambas.
+Com a dependência declarada no constructor de MyClass, tiramos do seu escopo a necessidade de intanciar a classe dependida, pois esta já está disponível desde o momento de sua declaração, diminuíndo o nível de acoplamento entre ambas.
 
 Contudo, a injeção de dependências não torna MyClass um exemplo de Inversão de dependências, visto que os conceitos, por mais que associáveis, são bastante diferentes. Dependency Injection é um pattern que visa reduzir o acoplamento entre recursos de um sistema, já a Inversão de dependências é uma boa prática da POO, que define as interfaces como modelo ideal de dependência. 
 
